@@ -1,0 +1,18 @@
+{
+  "name": "telemetry",
+  "version": "1.0.0",
+  "description": "teeeeeeelemetry for     rpi",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.0.1",
+    "node-datachannel": "^0.28.0",
+    "pusher": "^5.2.0",
+    "serialport": "^13.0.0"
+  }
+}

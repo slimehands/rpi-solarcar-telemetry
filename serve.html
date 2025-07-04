@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pusher Auto Receiver</title>
+  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+</head>
+<body>
+  <h2>Status: <span id="status">Waiting for data...</span></h2>
+  <pre id="output"></pre>
+
+  <script>
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+
+    // Enable logging (optional)
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('dc4668a1-0cb1-4b97-b7c6-8d81ed37cb6e', {
+      cluster: 'us2',
+    });
+
+    const channel = pusher.subscribe('my-channel');
+
+    channel.bind('my-event', function (data) {
+      const message = data.message;
+
+      output.textContent = message;
+      status.textContent = "Message received. Downloading...";
+
+      // Create a Blob and auto-download it
+      const blob = new Blob([message], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'message.txt';
+
+      // Append to body to simulate click (required in some browsers)
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      URL.revokeObjectURL(url);
+
+      status.textContent = "Waiting for data...";
+    });
+  </script>
+</body>
+</html>
